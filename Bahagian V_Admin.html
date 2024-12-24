@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAHAGIAN V - ADMIN</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #0066cc;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #0066cc;
+        }
+
+        .data-table th {
+            background-color: #0066cc;
+            color: white;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            /* Space above the button container */
+        }
+
+        .button {
+            display: block;
+            /* Make buttons block elements */
+            background-color: #0066cc;
+            /* Button color */
+            color: white;
+            /* Button text color */
+            border: none;
+            /* No border */
+            padding: 10px;
+            /* Padding inside button */
+            margin: 5px 0;
+            /* Space between buttons */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+            border-radius: 4px;
+            /* Rounded corners for button */
+            text-align: center;
+            /* Center text */
+            text-decoration: none;
+            /* Remove underline from links */
+        }
+
+        .button:hover {
+            background-color: #005bb5;
+            /* Darker button color on hover */
+        }
+
+        .section-button {
+            background-color: #0066cc;
+            /* Button color */
+            color: white;
+            /* Button text color */
+            border: none;
+            /* No border */
+            padding: 10px;
+            /* Padding inside button */
+            margin: 5px;
+            /* Space around button */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+            border-radius: 4px;
+            /* Rounded corners */
+            text-align: center;
+            /* Center text */
+            transition: background-color 0.3s;
+            /* Smooth transition for hover effect */
+        }
+
+        .section-button:hover {
+            background-color: #005bb5;
+            /* Darker button color on hover */
+        }
+
+        .edit-modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1000;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Black background with opacity */
+            justify-content: center;
+            /* Center the modal */
+            align-items: center;
+            /* Center the modal */
+        }
+
+        .edit-modal-content {
+            background-color: #e0f7ff;
+            /* Modal background color */
+            padding: 20px;
+            border: 1px solid #0066cc;
+            width: 300px;
+            /* Set a width for the modal */
+            margin: auto;
+            /* Center the modal */
+            position: relative;
+            /* Position relative for inner elements */
+        }
+
+        a {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+            /* Hides the element */
+        }
+
+        .add-item-form {
+            background-color: #e0f7ff;
+            /* Light background color */
+            padding: 20px;
+            /* Padding around the form */
+            border: 1px solid #0066cc;
+            /* Border color */
+            border-radius: 5px;
+            /* Rounded corners */
+            margin-bottom: 20px;
+            /* Space below the form */
+        }
+
+        .add-item-form label {
+            display: block;
+            /* Make labels block elements */
+            margin-bottom: 5px;
+            /* Space below labels */
+        }
+
+        .add-item-form input {
+            width: 100%;
+            /* Full width inputs */
+            padding: 8px;
+            /* Padding inside inputs */
+            margin-bottom: 10px;
+            /* Space below inputs */
+            border: 1px solid #ccc;
+            /* Border for inputs */
+            border-radius: 4px;
+            /* Rounded corners for inputs */
+        }
+
+        .add-item-form button {
+            background-color: #0066cc;
+            /* Button color */
+            color: white;
+            /* Button text color */
+            border: none;
+            /* No border */
+            padding: 10px;
+            /* Padding inside button */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+            border-radius: 4px;
+            /* Rounded corners for button */
+        }
+
+        .add-item-form button:hover {
+            background-color: #005bb5;
+            /* Darker button color on hover */
+        }
+
+        .edit-button {
+            background-color: #ffeb3b;
+            /* Yellow color */
+            color: black;
+            /* Text color */
+            border: none;
+            /* No border */
+            padding: 5px 10px;
+            /* Padding inside button */
+            margin: 5px;
+            /* Space around button */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+            border-radius: 4px;
+            /* Rounded corners */
+            transition: background-color 0.3s;
+            /* Smooth transition for hover effect */
+        }
+
+        .edit-button:hover {
+            background-color: #fdd835;
+            /* Darker yellow on hover */
+        }
+
+        .delete-button {
+            background-color: #f44336;
+            /* Red color */
+            color: white;
+            /* Text color */
+            border: none;
+            /* No border */
+            padding: 5px 10px;
+            /* Padding inside button */
+            margin: 5px;
+            /* Space around button */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+            border-radius: 4px;
+            /* Rounded corners */
+            transition: background-color 0.3s;
+            /* Smooth transition for hover effect */
+        }
+
+        .delete-button:hover {
+            background-color: #e53935;
+            /* Darker red on hover */
+        }
+
+        .file-input {
+            display: inline-block;
+            /* Make it inline with the button */
+            background-color: #005bb5;
+            /* Blue color */
+            color: white;
+            /* Text color */
+            border: none;
+            /* No border */
+            padding: 10px;
+            /* Padding inside button */
+            margin: 5px;
+            /* Space around button */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+            border-radius: 4px;
+            /* Rounded corners */
+            transition: background-color 0.3s;
+            /* Smooth transition for hover effect */
+        }
+
+        .file-input:hover {
+            background-color: #0056b3;
+            /* Darker blue on hover */
+        }
+
+        .download-button {
+            background-color: #005bb5;
+            /* Blue color */
+            color: white;
+            /* Text color */
+            border: none;
+            /* No border */
+            padding: 10px;
+            /* Padding inside button */
+            margin: 5px;
+            /* Space around button */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+            border-radius: 4px;
+            /* Rounded corners */
+            transition: background-color 0.3s;
+            /* Smooth transition for hover effect */
+        }
+
+        .download-button:hover {
+            background-color: #0056b3;
+            /* Darker blue on hover */
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>KEMAS KINI : BAHAGIAN V </h1>
+
+    <!-- Section A -->
+    <button class="item-button section-button" onclick="toggleItems('items-a')">
+        <h2>BAHAGIAN A</h2>
+    </button>
+
+    <div id="items-a" class="items-list hidden">
+
+        <!-- Add Item Form for Bahagian A -->
+        <h3>Tambah Item Bahagian A</h3>
+        <div class="add-item-form">
+            <label for="new-no-A-V">No:</label>
+            <input type="text" id="new-no-A-V" placeholder="Masukkan No. Item"><br>
+
+            <label for="new-name-A-V">Keterangan:</label>
+            <input type="text" id="new-name-A-V" placeholder="Masukkan Keterangan"><br>
+
+            <label for="new-unit-A-V">Unit:</label>
+            <input type="text" id="new-unit-A-V" placeholder="Masukkan Unit"><br>
+
+            <label for="new-price-A-V">Harga Per Unit (RM):</label>
+            <input type="number" id="new-price-A-V" placeholder="Masukkan Harga"><br>
+
+            <button onclick="addItem('A-V')">Tambah Item</button>
+        </div>
+
+        <!-- LIST ITEM DISPLAY HERE -->
+        <table id="data-table-A-V" class="data-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Keterangan</th>
+                    <th>Unit</th>
+                    <th>Harga Per Unit (RM)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!--EDIT ITEM -->
+        <div id="edit-modal-A-V" class="edit-modal">
+            <div class="edit-modal-content">
+                <h2>KEMAS KINI ITEM</h2>
+                <label for="edit-name-A-V">Keterangan:</label>
+                <input type="text" id="edit-name-A-V"><br><br>
+                <label for="edit-unit-A-V">Unit :</label>
+                <input type="text" id="edit-unit-A-V"><br><br>
+                <label for="edit-price-A-V">Harga Per Unit (RM):</label>
+                <input type="number" id="edit-price-A-V"><br><br>
+                <button onclick="saveEdit('A-V')">Simpan</button>
+                <button onclick="closeEditModal('A-V')">Batal</button>
+            </div>
+        </div>
+
+        <input type="file" id="excel-file-A-V" accept=".xlsx, .xls" class="file-input">
+        <button id="download-button-A-V" class="download-button" onclick="downloadExcel('A-V')">Muat Turun Senarai Item
+            Terkini</button>
+
+    </div>
+
+
+    <!-- Section B -->
+    <br><button class="item-button section-button" onclick="toggleItems('items-b')">
+        <h2>BAHAGIAN B</h2>
+    </button>
+
+    <div id="items-b" class="items-list hidden">
+
+        <!-- Add Item Form for Bahagian B -->
+        <h3>Tambah Item Bahagian B</h3>
+        <div class="add-item-form">
+            <label for="new-no-B-V">No:</label>
+            <input type="text" id="new-no-B-V" placeholder="Masukkan No. Item"><br>
+
+            <label for="new-name-B-V">Keterangan:</label>
+            <input type="text" id="new-name-B-V" placeholder="Masukkan Keterangan"><br>
+
+            <label for="new-unit-B-V">Unit:</label>
+            <input type="text" id="new-unit-B-V" placeholder="Masukkan Unit"><br>
+
+            <label for="new-price-B-V">Harga Per Unit (RM):</label>
+            <input type="number" id="new-price-B-V" placeholder="Masukkan Harga"><br>
+
+            <button onclick="addItem('B-V')">Tambah Item</button>
+        </div>
+
+        <!-- LIST ITEM DISPLAY HERE -->
+        <table id="data-table-B-V" class="data-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Keterangan</th>
+                    <th>Unit</th>
+                    <th>Harga Per Unit (RM)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!--EDIT ITEM -->
+        <div id="edit-modal-B-V" class="edit-modal">
+            <div class="edit-modal-content">
+                <h2>KEMAS KINI ITEM</h2>
+                <label for="edit-name-B-V ">Keterangan:</label>
+                <input type="text" id="edit-name-B-V"><br><br>
+                <label for="edit-unit-B-V">Unit :</label>
+                <input type="text" id="edit-unit-B-V"><br><br>
+                <label for="edit-price-B-V">Harga Per Unit (RM):</label>
+                <input type="number" id="edit-price-B-V"><br><br>
+                <button onclick="saveEdit('B-V')">Simpan</button>
+                <button onclick="closeEditModal('B-V')">Batal</button>
+            </div>
+        </div>
+
+        <input type="file" id="excel-file-B-V" accept=".xlsx, .xls" class="file-input">
+        <button id="download-button-B-V" class="download-button" onclick="downloadExcel('B-V')">Muat Turun Senarai Item
+            Terkini</button>
+
+    </div>
+
+    <!-- Section C -->
+    <br><button class="item-button section-button" onclick="toggleItems('items-c')">
+        <h2>BAHAGIAN C</h2>
+    </button>
+
+    <div id="items-c" class="items-list hidden">
+
+        <!-- Add Item Form for Bahagian C -->
+        <h3>Tambah Item Bahagian C</h3>
+        <div class="add-item-form">
+            <label for="new-no-C-V">No:</label>
+            <input type="text" id="new-no-C-V" placeholder="Masukkan No. Item"><br>
+
+            <label for="new-name-C-V">Keterangan:</label>
+            <input type="text" id="new-name-C-V" placeholder="Masukkan Keterangan"><br>
+
+            <label for="new-unit-C-V">Unit:</label>
+            <input type="text" id="new-unit-C-V" placeholder="Masukkan Unit"><br>
+
+            <label for="new-price-C-V">Harga Per Unit (RM):</label>
+            <input type="number" id="new-price-C-V" placeholder="Masukkan Harga"><br>
+
+            <button onclick="addItem('C-V')">Tambah Item</button>
+        </div>
+
+        <!-- LIST ITEM DISPLAY HERE -->
+        <table id="data-table-C-V" class="data-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Keterangan</th>
+                    <th>Unit</th>
+                    <th>Harga Per Unit (RM)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!--EDIT ITEM -->
+        <div id="edit-modal-C-V" class="edit-modal">
+            <div class="edit-modal-content">
+                <h2>KEMAS KINI ITEM</h2>
+                <label for="edit-name-C-V">Keterangan:</label>
+                <input type="text" id="edit-name-C-V"><br><br>
+                <label for="edit-unit-C-V">Unit :</label>
+                <input type="text" id="edit-unit-C-V"><br><br>
+                <label for="edit-price-C-V">Harga Per Unit (RM):</label>
+                <input type="number" id="edit-price-C-V"><br><br>
+                <button onclick="saveEdit('C-V')">Simpan</button>
+                <button onclick="closeEditModal('C-V')">Batal</button>
+            </div>
+        </div>
+
+        <input type="file" id="excel-file-C-V" accept=".xlsx, .xls" class="file-input">
+        <button id="download-button-C-V" class="download-button" onclick="downloadExcel('C-V')">Muat Turun Senarai Item
+            Terkini</button>
+
+    </div>
+
+    <!-- Section D -->
+
+    <br>
+    <button class="item-button section-button" onclick="toggleItems('items-d')">
+        <h2>BAHAGIAN D</h2>
+    </button>
+
+    <div id="items-d" class="items-list hidden">
+
+        <!-- Add Item Form for Bahagian D -->
+        <h3>Tambah Item Bahagian D</h3>
+        <div class="add-item-form">
+            <label for="new-no-D-V">No:</label>
+            <input type="text" id="new-no-D-V" placeholder="Masukkan No. Item"><br>
+
+            <label for="new-name-D-V">Keterangan:</label>
+            <input type="text" id="new-name-D-V" placeholder="Masukkan Keterangan"><br>
+
+            <label for="new-unit-D-V">Unit:</label>
+            <input type="text" id="new-unit-D-V" placeholder="Mas ukkan Unit"><br>
+
+            <label for="new-price-D-V">Harga Per Unit (RM):</label>
+            <input type="number" id="new-price-D-V" placeholder="Masukkan Harga"><br>
+
+            <button onclick="addItem('D-V')">Tambah Item</button>
+        </div>
+
+        <!-- LIST ITEM DISPLAY HERE -->
+        <table id="data-table-D-V" class="data-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Keterangan</th>
+                    <th>Unit</th>
+                    <th>Harga Per Unit (RM)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!--EDIT ITEM -->
+        <div id="edit-modal-D-V" class="edit-modal">
+            <div class="edit-modal-content">
+                <h2>KEMAS KINI ITEM</h2>
+                <label for="edit-name-D-V">Keterangan:</label>
+                <input type="text" id="edit-name-D-V"><br><br>
+                <label for="edit-unit-D-V">Unit :</label>
+                <input type="text" id="edit-unit-D-V"><br><br>
+                <label for="edit-price-D-V">Harga Per Unit (RM):</label>
+                <input type="number" id="edit-price-D-V"><br><br>
+                <button onclick="saveEdit('D-V')">Simpan</button>
+                <button onclick="closeEditModal('D-V')">Batal</button>
+            </div>
+        </div>
+
+        <input type="file" id="excel-file-D-V" accept=".xlsx, .xls" class="file-input">
+        <button id="download-button-D-V" class="download-button" onclick="downloadExcel('D-V')">Muat Turun Senarai Item
+            Terkini</button>
+
+    </div>
+
+    <!-- Section E -->
+
+    <br>
+    <button class="item-button section-button" onclick="toggleItems('items-e')">
+        <h2>BAHAGIAN E</h2>
+    </button>
+
+    <div id="items-e" class="items-list hidden">
+
+        <!-- Add Item Form for Bahagian E -->
+        <h3>Tambah Item Bahagian E</h3>
+        <div class="add-item-form">
+            <label for="new-no-E-V">No:</label>
+            <input type="text" id="new-no-E-V" placeholder="Masukkan No. Item"><br>
+
+            <label for="new-name-E-V">Keterangan:</label>
+            <input type="text" id="new-name-E-V" placeholder="Masukkan Keterangan"><br>
+
+            <label for="new-unit-E-V">Unit:</label>
+            <input type="text" id="new-unit-E-V" placeholder="Masukkan Unit"><br>
+
+            <label for="new-price-E-V">Harga Per Unit (RM):</label>
+            <input type="number" id="new-price-E-V" placeholder="Masukkan Harga"><br>
+
+            <button onclick="addItem('E-V')">Tambah Item</button>
+        </div>
+
+        <!-- LIST ITEM DISPLAY HERE -->
+        <table id="data-table-E-V" class="data-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Keterangan</th>
+                    <th>Unit</th>
+                    <th>Harga Per Unit (RM)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!--EDIT ITEM -->
+        <div id="edit-modal-E-V" class="edit-modal">
+            <div class="edit-modal-content">
+                <h2>KEMAS KINI ITEM</h2>
+                <label for="edit-name-E-V">Keterangan:</label>
+                <input type="text" id="edit-name-E-V"><br><br>
+                <label for="edit-unit-E-V">Unit :</label>
+                <input type="text" id="edit-unit-E-V"><br><br>
+                <label for="edit-price-E-V">Harga Per Unit (RM):</label>
+                <input type="number" id="edit-price-E-V"><br><br>
+                <button onclick="saveEdit('E-V')">Simpan</button>
+                <button onclick="closeEditModal('E-V')">Batal</button>
+            </div>
+        </div>
+
+        <input type="file" id="excel-file-E-V" accept=".xlsx, .xls" class="file-input">
+        <button id="download-button-E-V" class="download-button" onclick="downloadExcel('E-V')">Muat Turun Senarai Item
+            Terkini</button>
+
+    </div>
+
+
+
+    <div class="button-container">
+        <a href="Bahagian V_User.html" class="button">Bahagian V (BAHAGIAN USER)</a>
+        <a href="kemaskini.html" class="button">Menu</a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+    <script>
+        let currentEditingRow = null;
+        let currentSection = '';
+
+        // Load data from localStorage on page load
+        window.onload = function () {
+            ['A-V', 'B-V', 'C-V', 'D-V', 'E-V'].forEach(section => {
+                const storedData = localStorage.getItem(`excelData${section}`);
+                if (storedData) {
+                    const parsedData = JSON.parse(storedData);
+                    displayData(section, parsedData);
+                }
+            });
+        };
+
+
+        // Function to display data in the table
+        function displayData(section, data) {
+            const tableBody = document.querySelector(`#data-table-${section} tbody`);
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            data.forEach((row, index) => {
+                if (index === 0) return; // Skip header
+                const rowElement = document.createElement('tr');
+                rowElement.innerHTML = `
+            <td>${row[0] || ''}</td>
+            <td>${row[1] || ''}</td>
+            <td>${row[2] || ''}</td>
+            <td>${row[3] || ''}</td>
+            <td>
+                ${row[0]
+                        ? `<button onclick="editItem(${index}, '${section}', this)">Edit</button>
+                       <button onclick="removeItem('${section}', this)">Remove</button>`
+                        : ''
+                    }
+            </td>`;
+                tableBody.appendChild(rowElement);
+            });
+        }
+
+
+        // Handle file upload
+        function handleFileUpload(event, section) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                // Save to localStorage
+                localStorage.setItem(`excelData${section}`, JSON.stringify(jsonData));
+
+                // Display data in the table
+                displayData(section, jsonData);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Edit item functionality
+        function editItem(index, section, button) {
+            currentSection = section;
+            const row = button.closest('tr');
+            currentEditingRow = row;
+            document.getElementById(`edit-name-${section}`).value = row.cells[1].textContent;
+            document.getElementById(`edit-unit-${section}`).value = row.cells[2].textContent;
+            document.getElementById(`edit-price-${section}`).value = row.cells[3].textContent;
+            document.getElementById(`edit-modal-${section}`).style.display = 'block';
+        }
+
+        // Save edited item
+        function saveEdit(section) {
+            const newName = document.getElementById(`edit-name-${section}`).value;
+            const newUnit = document.getElementById(`edit-unit-${section}`).value;
+            const newPrice = document.getElementById(`edit-price-${section}`).value;
+            if (!newName || !newPrice) {
+                alert("Both fields are required.");
+                return;
+            }
+            currentEditingRow.cells[1].textContent = newName;
+            currentEditingRow.cells[2].textContent = newUnit;
+            currentEditingRow.cells[3].textContent = newPrice;
+            updateLocalStorage(section);
+            closeEditModal(section);
+        }
+
+        // Close edit modal
+        function closeEditModal(section) {
+            document.getElementById(`edit-modal-${section}`).style.display = 'none';
+        }
+
+        // Update localStorage
+        function updateLocalStorage(section) {
+            const rows = Array.from(document.querySelectorAll(`#data-table-${section} tbody tr`));
+            const updatedData = rows.map(row => Array.from(row.cells).slice(0, 4).map(cell => cell.textContent));
+            updatedData.unshift(['No.', 'Item Name', 'Unit', 'Price']); // Add header back
+            localStorage.setItem(`excelData${section}`, JSON.stringify(updatedData));
+        }
+
+        // Remove item from the table
+        function removeItem(section, button) {
+            button.closest('tr').remove();
+            updateLocalStorage(section);
+        }
+
+        // Download updated Excel file
+        function downloadExcel(section) {
+            const tableRows = document.querySelectorAll(`#data-table-${section} tbody tr`);
+            const data = [['No.', 'Item Name', 'Unit', 'Price']];
+            tableRows.forEach(row => {
+                const rowData = [];
+                for (let i = 0; i < 4; i++) {
+                    rowData.push(row.cells[i].textContent);
+                }
+                data.push(rowData);
+            });
+            const worksheet = XLSX.utils.aoa_to_sheet(data);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, `Updated Data ${section}`);
+            XLSX.writeFile(workbook, `UpdatedData_${section}.xlsx`);
+        }
+
+        //Add Item 
+        function addItem(section) {
+            const noInput = document.getElementById(`new-no-${section}`);
+            const nameInput = document.getElementById(`new-name-${section}`);
+            const unitInput = document.getElementById(`new-unit-${section}`);
+            const priceInput = document.getElementById(`new-price-${section}`);
+
+            const itemNo = noInput.value.trim();
+            const itemName = nameInput.value.trim();
+            const itemUnit = unitInput.value.trim();
+            const itemPrice = priceInput.value.trim();
+
+            if (!itemNo || !itemName || !itemPrice) {
+                alert("No, Nama item dan harga diperlukan.");
+                return;
+            }
+
+            // Get existing data from localStorage or create new array
+            const storedData = localStorage.getItem(`excelData${section}`);
+            const data = storedData ? JSON.parse(storedData) : [['No.', 'Item Name', 'Unit', 'Price']];
+
+            // Add new item with the provided item number
+            const newItem = [itemNo, itemName, itemUnit || '', itemPrice];
+            data.push(newItem);
+
+            // Save back to localStorage
+            localStorage.setItem(`excelData${section}`, JSON.stringify(data));
+
+            // Display updated data
+            displayData(section, data);
+
+            // Clear input fields
+            noInput.value = '';
+            nameInput.value = '';
+            unitInput.value = '';
+            priceInput.value = '';
+        }
+
+        function closeEditModal(section) {
+            document.getElementById(`edit-modal-${section}`).style.display = 'none';
+        }
+
+        function toggleItems(itemId) {
+            const itemsList = document.getElementById(itemId);
+            if (itemsList.classList.contains('hidden')) {
+                itemsList.classList.remove('hidden'); // Show the items
+            } else {
+                itemsList.classList.add('hidden'); // Hide the items
+            }
+        } // <-- Add this closing brace to properly close the function
+
+        // Event listeners for file inputs
+        document.getElementById('excel-file-A-V').addEventListener('change', function (event) {
+            handleFileUpload(event, 'A-V');
+        });
+
+        document.getElementById('excel-file-B-V').addEventListener('change', function (event) {
+            handleFileUpload(event, 'B-V');
+        });
+
+        document.getElementById('excel-file-C-V').addEventListener('change', function (event) {
+            handleFileUpload(event, 'C-V');
+        });
+
+        document.getElementById('excel-file-D-V').addEventListener('change', function (event) {
+            handleFileUpload(event, 'D-V');
+        });
+
+        document.getElementById('excel-file-E-V').addEventListener('change', function (event) {
+            handleFileUpload(event, 'E-V');
+        });
+    </script>
+
+
+</body>
+
+</html>

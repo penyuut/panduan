@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Slip</title>
+    <style>
+        /* Add some basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h2>SLIP</h2>
+    <div id="slip-content"></div>
+
+    <script>
+        // Function to get URL parameters
+        function getUrlParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const regex = /([^&=]+)=([^&]*)/g;
+            let m;
+            while (m = regex.exec(queryString)) {
+                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            }
+            return params;
+        }
+
+        // Retrieve data from URL parameters
+        const params = getUrlParams();
+
+        // Create the slip HTML
+        const slipHTML = `
+            <p>Projek: ${params.project}</p>
+            <p>Jarak: ${params.distance} km daripada ${params.jalan}</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Keterangan</th>
+                        <th>Bhg.</th>
+                        <th>Bil.</th>
+                        <th>RM</th>
+                        <th>Kuantiti</th>
+                        <th>Harga</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="7">A - ITEM JKKE</td>
+                    </tr>
+                    ${params.itemJKKE}
+                    <tr>
+                        <td colspan="7">B - ITEM HARGA PERSETUJUAN</td>
+                    </tr>
+                    ${params.itemHargaPersetujuan}
+                </tbody>
+            </table>
+            <p>Jumlah Nilai Kerja (NK): ${params.totalNK}</p>
+            <h2>PENGIRAAN TAMBAHAN PERATUSAN</h2>
+            <p>Tax Percentage: ${params.taxPercentage}</p>
+            <p>Tax Percentage Kenderaan: ${params.taxPercentageKenderaan}</p>
+            <p>Jumlah Besar (JB) 1: ${params.jumlahBesar1}</p>
+            <p>Tambahan 20% daripada JB1 oleh sebab jumlah kurang dari RM1,000.00: ${params.charge}</p>
+            <p>Jumlah Besar (JB) 2: ${params.jumlahBesar2}</p>
+            <p>Had maksimum bayaran kepada Kontraktor: ${params.bayaranMuktamad}</p>
+        `;
+
+        // Display the slip content
+        document.getElementById('slip-content').innerHTML = slipHTML;
+    </script>
+</body>
+</html>

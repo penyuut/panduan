@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slip Page</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #0066cc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .final-slip {
+            background-color: white;
+            /* White background for the box */
+            border: 1px solid #ccc;
+            /* Light grey border */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+            padding: 20px;
+            /* Padding inside the box */
+            max-width: 600px;
+            /* Maximum width of the box */
+            margin: auto;
+            /* Center the box */
+            border-radius: 5px;
+            /* Rounded corners */
+        }
+
+        .form-container,
+        .approval-container {
+            border: 1px solid #333;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-container h2,
+        .approval-container h2 {
+            margin-top: 0;
+        }
+
+        .form-container label,
+        .approval-container label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .form-container input,
+        .approval-container input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .radio-group {
+            margin: 10px 0;
+        }
+
+        #approval-output table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #approval-output table th,
+        #approval-output table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #approval-output table th {
+            background-color: #f0f0f0;
+        }
+
+        #selected-items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        #selected-items-table th,
+        #selected-items-table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #333;
+        }
+
+        #selected-items-table th {
+            background-color: #0066cc;
+            color: white;
+        }
+
+        #selected-items-table tfoot td {
+            font-weight: bold;
+            text-align: right;
+            background-color: #e0f7ff;
+        }
+
+        #item-details {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>SLIP</h1>
+
+    <!--ITEM JKKE-->
+    <div class="form-container">
+        <h2>ITEM JKKE</h2>
+        <table id="selected-items-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Keterangan</th>
+                    <th>Bhg.</th>
+                    <th>Bil.</th>
+                    <th>RM</th>
+                    <th>Kuantiti</th>
+                    <th>Harga</th>
+                </tr>
+            </thead>
+            <tbody id="selected-items-table-body">
+                <!-- Selected items will be displayed here -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">Jumlah Keseluruhan</td>
+                    <td id="total-amount">RM 0.00</td>
+                </tr>
+            </tfoot>
+        </table>
+
+
+        <h3>Tambah Item</h3>
+        <li><a href="Bahagian I_User.html">BAHAGIAN I</a></li>
+        <li><a href="Bahagian II_User.html">BAHAGIAN II</a></li>
+        <li><a href="Bahagian III_User.html">BAHAGIAN III</a></li>
+        <li><a href="Bahagian IV_User.html">BAHAGIAN IV</a></li>
+        <li><a href="Bahagian V_User.html">BAHAGIAN V</a></li>
+        <li><a href="Bahagian VI_User.html">BAHAGIAN VI</a></li>
+        <li><a href="Bahagian VII_User.html">BAHAGIAN VII</a></li>
+    </div>
+
+    <!-- ITEM HARGA PERSETUJUAN-->
+    <div class="approval-container">
+        <h2>ITEM HARGA PERSETUJUAN</h2>
+        <p>Ada Item Persetujuan?</p>
+        <div class="radio-group">
+            <label><input type="radio" name="approval" value="ada" onclick="toggleItemDetails(true)"> Ada</label>
+            <label><input type="radio" name="approval" value="tidak-ada" onclick="toggleItemDetails(false)"> Tidak
+                Ada</label>
+        </div>
+    </div>
+
+    <!-- Item Details Form -->
+    <div id="item-details" class="form-container">
+        <h2>ITEM HARGA PERSETUJUAN</h2>
+        <div id="item-list">
+            <div class="item-row">
+                <label for="item">Item</label>
+                <input type="text" class="item-input" placeholder="Masukkan item">
+                <label for="price">Harga</label>
+                <input type="text" class="price-input" placeholder="Masukkan harga">
+                <label for="quantity">Kuantiti</label>
+                <input type="text" class="quantity-input" placeholder="Masukkan kuantiti">
+            </div>
+        </div>
+        <button id="add-item-button">Ada penambahan lagi?</button>
+    </div>
+
+    <div class="form-container">
+        <h2>LOKASI</h2>
+        <form id="location-form">
+            <label for="project">Projek</label>
+            <input type="text" id="project" name="project" placeholder="Masukkan nama projek">
+
+            <label for="distance">Jarak</label>
+            <input type="text" id="distance" name="distance" placeholder="Masukkan jarak">
+
+            <label for="jalan">Negeri</label>
+            <select id="jalan" name="jalan">
+                <option value="pahang">JKR Elektrik Pahang</option>
+                <option value="johor">JKR Elektrik Johor</option>
+                <option value="selangor">JKR Elektrik Selangor</option>
+                <option value="pahang">JKR Elektrik Pahang (Pejabat pengeluar inden)</option>
+                <option value="johor">JKR Elektrik Johor (Pejabat pengeluar inden)</option>
+                <option value="selangor">JKR Elektrik Selangor (Pejabat pengeluar inden)</option>
+                <option value="terengganu">JKR Elektrik Terengganu (Pejabat pengeluar inden)</option>
+                <option value="negeri_sembilan">JKR Elektrik Negeri Sembilan (Pejabat pengeluar inden)</option>
+                <option value="kelantan">JKR Elektrik Kelantan (Pejabat pengeluar inden)</option>
+                <option value="kedah">JKR Elektrik Kedah (Pejabat pengeluar inden)</option>
+                <option value="pulau pinang">JKR Elektrik Pulau Pinang (Pejabat pengeluar inden)</option>
+                <option value="melaka">JKR Elektrik Melaka (Pejabat pengeluar inden)</option>
+                <option value="perlis">JKR Elektrik Perlis (Pejabat pengeluar inden)</option>
+                <option value="putrajaya">JKR Elektrik Wilayah Persekutuan Putrajaya (Pejabat pengeluar inden)</option>
+                <option value="kuala_lumpur">JKR Elektrik Wilayah Persekutuan Kuala Lumpur (Pejabat pengeluar inden)
+                </option>
+                <option value="labuan">JKR Elektrik Wilayah Persekutuan Labuan (Pejabat pengeluar inden)</option>
+                <option value="kesedar">JKR Elektrik KESEDAR (Pejabat pengeluar inden)</option>
+                <option value="ketengah">JKR Elektrik KETENGAH (Pejabat pengeluar inden)</option>
+            </select>
+
+            <label for="district">Daerah</label>
+            <select id="district" name="district">
+                <option value="">Sila pilih daerah</option>
+            </select>
+        </form>
+    </div>
+
+    <!-- BAHAGIAN PERATUSAN -->
+    <div class="form-container">
+        <h2>TAMBAHAN PERATUSAN </h2>
+
+        <div class="radio-group">
+
+            <input type="radio" id="darat" name="kenderaan" value="darat">
+            <label for="darat">Tambahan peratusan sebanyak 2% lagi dari JKKE hendaklah dibuat
+                sekiranya jalan ke sesuatu tempat kerja hanya boleh dilalui oleh
+                kenderaan darat berjentera beroda dua (two-wheel vehicle) atau
+                kenderaan berjentera yang mempunyai pacuan empat roda (four-wheel
+                drive vehicle).
+            </label>
+
+            <br><input type="radio" id="air" name="kenderaan" value="air">
+            <label for="air"> Tambahan peratusan sebanyak 5% lagi dari JKKE hendaklah dibuat
+                sekiranya jalan ke sesuatu tempat kerja hanya boleh dilalui menggunakan
+                kenderaan air dengan mengharungi sungai, tasik atau laut, tanpa
+                jambatan.</label>
+        </div>
+    </div>
+
+    <button id="done-button" onclick="handleHantar(); displayApprovalDetails();">HANTAR</button>
+
+    <!--SLIP SECTION -->
+    <div class="form-container">
+
+        <h1>SLIP</h1>
+
+        <div id="output">
+            <p>Projek: <span id="project-output"></span></p>
+            <p>Jarak: <span id="distance-output"></span> km daripada <span id="jalan-output"></span></p>
+        </div>
+
+
+        <br>
+        <h2>B - ITEM HARGA PERSETUJUAN</h2>
+        <div id="approval-output"></div>
+
+        <!--JUMLAH NILAI KERJA -->
+        <p>Jumlah Nilai Kerja (NK): <span id="jumlah-nilai-kerja">RM 0.00</span></p>
+
+        <!--TAX DAERAH-->
+        <div id="tax-details">
+            <h2>PENGIRAAN TAMBAHAN PERATUSAN</h2>
+            <p>CUKAI DAERAH</p>
+            <p>Tax Percentage: <span id="tax-percentage">0%</span></p>
+            <p>Total Amount After Tax: RM <span id="total-after-tax">0.00</span></p>
+        </div>
+
+        <!--TAX JENIS KENDERAAN -->
+        <div id="tax-details-kenderaan">
+            <h2>PENGIRAAN TAMBAHAN PERATUSAN</h2>
+            <p>CUKAI JENIS KENDERAAN</p>
+            <p>Tax Percentage : <span id="tax-percentage-kenderaan">0%</span></p>
+            <p>Jumlah Peratusan: RM <span id="tax-amount-kenderaan">0.00</span></p>
+            <p>Total Amount After Tax: RM <span id="total-after-tax-kenderaan">0.00</span></p>
+        </div>
+
+        <!-- JUMLAH BESAR SATU DISPLAY -->
+        <div>
+            <h2>Jumlah Besar (JB) 1</h2>
+            <p id="jumlah-besar-output">RM 0.00</p>
+        </div>
+
+        <!--JUMLAH BESAR SATU MELEBIHI/KURANG DARIPADA RM1000-->
+        <div>
+            <h2>Tambahan 20% daripada JB1 oleh sebab jumlah kurang dari RM1,000.00,
+                Rujuk item 1.2.4. </h2>
+            <p id="charge-output">0.00</p>
+        </div>
+
+        <!--JUMLAH BESAR DUA -->
+        <div>
+            <h2>Jumlah Besar (JB) 2</h2>
+            <p id="jumlah-besar-2-output">RM 0.00</p>
+        </div>
+
+        <!-- BAYARAN MUKTAMAD -->
+        <div">
+            <h2>Bayaran Muktamad</h2>
+            <p id="bayaran-muktamad-output">Bayaran Muktamad: RM 0.00</p>
+            <p id="had-maksimum-output"></p>
+    </div>
+
+    </div>
+
+    <!--FINAL SLIP SECTION-->
+
+    <div class="final-slip" id="final-slip" style="display: none;">
+
+        <p>Projek: <span id="final-project-output"></span></p>
+        <p>Jarak: <span id="final-distance-output"></span> km daripada <span id="final-jalan-output"></span></p>
+
+
+        <table>
+            <tr>
+                <th rowspan="2">No</th>
+                <th rowspan="2">Keterangan</th>
+                <th colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JKKE</th>
+                <th rowspan="2">Kuantiti</th>
+                <th rowspan="2">Harga</th>
+            </tr>
+            <tr>
+                <th>Bhg.</th>
+                <th>Bil.</th>
+                <th>RM</th>
+            </tr>
+            <tr>
+                <th><b>A</b></th>
+                <th><u><b>ITEM JKKE</b></u></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <!--<table id="final-selected-items-table">-->
+            <tbody id="final-selected-items-table-body">
+                <!-- Final selected items will be displayed here -->
+            </tbody>
+            <tr>
+                <th><b>B</b></th>
+                <th><b>ITEM HARGA PERSETUJUAN</b></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tbody id="final-approval-output">
+                <!-- Final selected items will be displayed here -->
+            </tbody>
+        </table>
+
+
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;Jumlah Nilai Kerja (NK) : <span id="final-jumlah-nilai-kerja"></span></p>
+
+        <p><b><u>PENGIRAAN TAMBAHAN PERATUSAN</u></b></p>
+        <p>
+            i. Tambahan peratusan kawasan (Rujuk Jadual 1)
+            <br>
+            <span id="final-tax-percentage"></span> daripada nilai kerja (NK)
+            ........... RM <span id="tax-amount"></span>
+        </p>
+        <p>ii. Tambahan peratusan kesukaran logistik (Rujuk item 1.2.2/ 1.2.3) :
+            <br>
+            <span id="tax-percentage-kenderaan"></span>daripada nilai kerja (NK)
+            ........... RM <span id="tax-amount-kenderaan">0.00</span>
+        </p>
+        </p>
+
+        <p>Jumlah Besar (JB) 1 : <span id="final-jumlah-besar-output"></span></p>
+        <p>Tambahan 20% daripada JB1 oleh sebab jumlah kurang dari RM1,000.00,
+            Rujuk item 1.2.4.<span id="final-charge-output"></span></p>
+
+        <p>Jumlah Besar (JB) 2 : <span id="final-jumlah-besar-2-output"></span></p>
+        <p>Had maksimum bayaran kepada Kontraktor: <span id="had-maksimum-output"></span></p>
+        <p>Bayaran Muktamad : <span id="final-bayaran-muktamad-output"></span></p>
+
+        <button onclick="downloadPDF()">Download PDF</button>
+        <button onclick="downloadExcel()">Download Excel</button>
+
+    </div>
+
+    <button id="hantar-slip-button">HANTAR SLIP</button>
+    <li><a href="index.html">MENU</a></li>
+
+    <script>
+
+        const daerahOptions = {
+            pahang: ['Bentong', 'Temerloh', 'Raub', 'Bera', 'Maran', 'Kuantan', 'Cameron Highlands', 'Kuala Lipis', 'Pekan', 'Jerantut', 'Rompin', 'Ulu Tembeling (Taman Negara)', 'Pulau Tioman'],
+            johor: ['Johor Bahru', 'Pontian', 'Segamat', 'Kluang', 'Batu Pahat', 'Muar', 'Kota Tinggi', 'Mersing', 'Tangkak', 'Kulaijaya', 'Pulau Sibu dan Pulau Tinggi', 'Pulau Aur dan Pulau Pemanggil'],
+            selangor: ['Semua daerah kecuali Sabak Bernam dan Kuala Selangor', 'Sabak Bernam dan Kuala Selangor', 'Pulau Ketam'],
+            negeri_sembilan: ['Seremban', 'Kuala Pilah', 'Port Dickson', 'Tampin', 'Rembau', 'Kuala Klawang', 'Bandar Baru Serting'],
+            melaka: ['Bandar Melaka'],
+            kelantan: ['Kota Bahru', 'Bachok', 'Pasir Puteh', 'Pasir Mas', 'Tumpat', 'Tanah Merah', 'Machang', 'Jeli', 'Kuala Krai', 'Gua Musang'],
+            kedah: ['Kota Setar', 'Sungai Petani', 'Kulim', 'Baling', 'Padang Terap', 'Yan', 'Sik', 'Bandar Baharu', 'Pendang', 'Langkawi'],
+            pulau_pinang: ['Pulau Pinang', 'Butterworth', 'Bukit Bendera', 'Pulau-pulau'],
+            perak: ['Kinta', 'Kuala Kangsar', 'Larut & Matang', 'Kerian', 'Batang Padang', 'Hilir Perak', 'Manjung', 'Perak Tengah', 'Hulu Perak', 'Pos Orang Asli', 'Pulau-pulau (Pulau Pangkor)'],
+            terengganu: ['Kuala Terengganu', 'Dungun', 'Kemaman', 'Besut', 'Hulu Terengganu', 'Setiu', 'Marang', 'Pulau-Pulau'],
+            labuan: ['Labuan', 'Pulau-pulau'],
+            putrajaya: ['Putrajaya'],
+            kuala_lumpur: ['Kuala Lumpur'],
+            perlis: ['Kangar'],
+            kesedar: ['Kesedar'],
+            ketengah: ['Ketengah']
+        };
+
+        document.getElementById('done-button').addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get the values from the form
+            var project = document.getElementById('project').value;
+            var distance = document.getElementById('distance').value;
+            var jalan = document.getElementById('jalan').options[document.getElementById('jalan').selectedIndex].text; // Get the selected text
+
+            // Display the values in the output sections
+            document.getElementById('project-output').innerText = project;
+            document.getElementById('distance-output').innerText = distance;
+            document.getElementById('jalan-output').innerText = jalan;
+        });
+
+        function populateDistrictDropdown(selectedNegeri) {
+            const districtDropdown = document.getElementById('district');
+
+            // Clear existing options
+            districtDropdown.innerHTML = '<option value="">Sila pilih daerah</option>';
+
+            // Get the list of districts for the selected negeri
+            const districts = daerahOptions[selectedNegeri] || [];
+
+            console.log("Districts for", selectedNegeri, ":", districts); // Debugging
+
+            // Populate the district dropdown with the relevant districts
+            districts.forEach(daerah => {
+                const option = document.createElement('option');
+                option.value = daerah.toLowerCase().replace(/\s+/g, '_');
+                option.textContent = daerah;
+                districtDropdown.appendChild(option);
+            });
+        }
+
+        // Add event listener to negeri dropdown
+        document.getElementById("jalan").addEventListener("change", function () {
+            const selectedNegeri = this.value.toLowerCase();
+            console.log("Selected Negeri:", selectedNegeri); // Debugging
+            populateDistrictDropdown(selectedNegeri);
+        });
+
+
+        // Tax Rates
+        const taxRates = {
+            'kangar': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'kota setar': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'sungai petani': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'kulim': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'baling': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'padang terap': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'yan': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'sik': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'bandar baharu': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'pendang': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'langkawi': {
+                lessThan16: 0.25,
+                between16And32: 0.0,
+                between32And48: 0.0,
+                moreThan48: 0.0
+            },
+
+            'pulau pinang': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'butterworth': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'bukit bendera': {
+                lessThan16: 0.15,
+                between16And32: 0.00,
+                between32And48: 0.00,
+                moreThan48: 0.00
+            },
+
+            'pulau-pulau': {
+                lessThan16: 0.20,
+                between16And32: 0.00,
+                between32And48: 0.00,
+                moreThan48: 0.00
+            },
+
+            'kinta': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'kuala kangsar': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'larut & matang': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'kerian': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'batang padang': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'hilir perak': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'manjung': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'perak tengah': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'hulu perak': {
+                lessThan16: 0.08,
+                between16And32: 0.13,
+                between32And48: 0.16,
+                moreThan48: 0.18
+            },
+
+            'pos orang asli': {
+                lessThan16: 0.20,
+                between16And32: 0.00,
+                between32And48: 0.00,
+                moreThan48: 0.00
+            },
+
+            'pulau-pulau (pulau pangkor)': {
+                lessThan16: 0.20,
+                between16And32: 0.00,
+                between32And48: 0.00,
+                moreThan48: 0.00
+            },
+
+            'semua daerah kecuali sabak bernam dan kuala selangor': {
+                lessThan16: 0.01,
+                between16And32: 0.05,
+                between32And48: 0.08,
+                moreThan48: 0.11
+            },
+
+            'sabak bernam dan kuala selangor': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'pulau ketam': {
+                lessThan16: 0.15,
+                between16And32: 0.00,
+                between32And48: 0.00,
+                moreThan48: 0.00
+            },
+
+            'seremban': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'kuala pilah': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'port dickson': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'tampin': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'rembau': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.13,
+                moreThan48: 0.15
+            },
+
+            'kuala klawang': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.13,
+                moreThan48: 0.15
+            },
+
+            'bandar baru serting': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.13,
+                moreThan48: 0.15
+            },
+
+            'bandar melaka': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'johor bahru': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'pontian': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'segamat': {
+                lessThan16: 0.06,
+                between16And32: 0.11,
+                between32And48: 0.14,
+                moreThan48: 0.16
+            },
+
+            'kluang': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'batu pahat': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'muar': {
+                lessThan16: 0.06,
+                between16And32: 0.11,
+                between32And48: 0.14,
+                moreThan48: 0.16
+            },
+
+            'kota tinggi': {
+                lessThan16: 0.06,
+                between16And32: 0.11,
+                between32And48: 0.14,
+                moreThan48: 0.16
+            },
+
+            'tangkak': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'kulaijaya': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'pulau sibu dan pulau tinggi': {
+                lessThan16: 0.25,
+                between16And32: 0.00,
+                between32And48: 0.00,
+                moreThan48: 0.00
+            },
+
+            'pulau aur dan pulau pemanggil': {
+                lessThan16: 0.40,
+                between16And32: 0.00,
+                between32And48: 0.00,
+                moreThan48: 0.00
+            },
+
+            'bentong': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'temerloh': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'raub': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'bera': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'maran': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'kuantan': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'cameron highlands': {
+                lessThan16: 0.06,
+                between16And32: 0.11,
+                between32And48: 0.14,
+                moreThan48: 0.16
+            },
+
+            'kuala lipis': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'pekan': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'jerantut': {
+                lessThan16: 0.03,
+                between16And32: 0.08,
+                between32And48: 0.11,
+                moreThan48: 0.13
+            },
+
+            'rompin': {
+                lessThan16: 0.06,
+                between16And32: 0.11,
+                between32And48: 0.14,
+                moreThan48: 0.16
+            },
+
+            'ulu tembeling': {
+                lessThan16: 0.20,
+                between16And32: 0.00,
+                between32And48: 0.00,
+                moreThan48: 0.00
+            },
+
+            'pulau tioman': {
+                lessThan16: 0.50,
+                between16And32: 0.00,
+                between32And48: 0.00,
+                moreThan48: 0.00
+            },
+
+            'labuan': {
+                lessThan16: 0.25,
+                between16And32: 0.00,
+                between32And48: 0.00,
+                moreThan48: 0.00
+            },
+
+            'pulau-pulau': {
+                lessThan16: 0.25,
+                between16And32: 0.00,
+                between32And48: 0.00,
+                moreThan48: 0.00
+            },
+
+            'kuala terengganu': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'dungun': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'kemaman': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'besut': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'hulu terengganu': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'setiu': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'marang': {
+                lessThan16: 0.06,
+                between16And32: 0.11,
+                between32And48: 0.14,
+                moreThan48: 0.16
+            },
+
+            'pulau-Pulau': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'kota bahru': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'bachok': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'pasir puteh': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'pasir mas': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'tumpat': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'tanah merah': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'machang': {
+                lessThan16: 0.04,
+                between16And32: 0.09,
+                between32And48: 0.12,
+                moreThan48: 0.14
+            },
+
+            'jeli': {
+                lessThan16: 0.06,
+                between16And32: 0.11,
+                between32And48: 0.14,
+                moreThan48: 0.16
+            },
+
+            'kuala krai': {
+                lessThan16: 0.06,
+                between16And32: 0.11,
+                between32And48: 0.14,
+                moreThan48: 0.16
+            },
+
+            'gua musang': {
+                lessThan16: 0.08,
+                between16And32: 0.13,
+                between32And48: 0.16,
+                moreThan48: 0.18
+            }
+
+        };
+
+        // Function to calculate tax
+        function calculateTax() {
+            const daerah = document.getElementById('district').value.toLowerCase().replace('_', ' ');
+            const jarak = parseFloat(document.getElementById('distance').value);
+            const totalAmount = parseFloat(document.getElementById('total-amount').textContent.replace('RM ', '')) || 0;
+
+            if (!daerah || isNaN(jarak)) {
+                alert('Please enter a valid distance and select a district.');
+                return;
+            }
+
+            if (taxRates[daerah]) {
+                let taxPercentage = 0;
+
+                if (jarak < 16) taxPercentage = taxRates[daerah].lessThan16 || 0;
+                else if (jarak <= 32) taxPercentage = taxRates[daerah].between16And32 || 0;
+                else if (jarak <= 48) taxPercentage = taxRates[daerah].between32And48 || 0;
+                else if (jarak > 48) taxPercentage = taxRates[daerah].moreThan48 || 0;
+
+                const taxAmount = totalAmount * taxPercentage;
+                const totalAfterTax = totalAmount + taxAmount;
+
+                document.getElementById('tax-percentage').textContent = (taxPercentage * 100).toFixed(2) + '%';
+                document.getElementById('tax-amount').textContent = taxAmount.toFixed(2);
+                document.getElementById('total-after-tax').textContent = totalAfterTax.toFixed(2);
+
+                document.getElementById('tax-details').style.display = 'block';
+            } else {
+                alert('No tax rate found for the selected district.');
+            }
+        }
+
+        // Toggle item details visibility
+        function toggleItemDetails(show) {
+            const itemDetails = document.getElementById('item-details');
+            itemDetails.style.display = show ? 'block' : 'none';
+
+            if (!show) {
+                document.getElementById("approval-output").textContent = "Tidak Ada";
+            }
+        }
+
+        // Add a new row for Item, Harga, and Kuantiti [ITEM HARGA PERSETUJUAN]
+        function addItemRow() {
+            const itemList = document.getElementById("item-list");
+            const newRow = document.createElement("div");
+            newRow.className = "item-row";
+            newRow.innerHTML = `
+            <label><u>MASUKKAN ITEM BAHARU </u></label>
+        <label for="item">Item</label>
+        <input type="text" class="item-input" placeholder="Masukkan item">
+        <label for="price">Harga</label>
+        <input type="text" class="price-input" placeholder="Masukkan harga">
+        <label for="quantity">Kuantiti</label>
+        <input type="text" class="quantity-input" placeholder="Masukkan kuantiti">
+    `;
+            itemList.appendChild(newRow);
+        }
+
+        document.getElementById("add-item-button").addEventListener("click", addItemRow);
+
+        window.onload = function () {
+            // Retrieve the selected items from localStorage
+            const storedItems = localStorage.getItem('selectedItems');
+            if (storedItems) {
+                const selectedItems = JSON.parse(storedItems);
+                displaySelectedItems(selectedItems);
+                updateTotalAmount(selectedItems);
+                updateTable(items);
+            }
+
+            const negeriSelect = document.getElementById("jalan");
+            const daerahSelect = document.getElementById("district");
+
+            document.getElementById("jalan").addEventListener("change", function () {
+                const selectedNegeri = this.value;
+                populateDistrictDropdown(selectedNegeri);
+
+                // Clear and populate Daerah dropdown
+                daerahSelect.innerHTML = '<option value="">Sila pilih daerah</option>';
+                daerahList.forEach(daerah => {
+                    const option = document.createElement('option');
+                    option.value = daerah.toLowerCase().replace(/\s+/g, '_');
+                    option.textContent = daerah;
+                    daerahSelect.appendChild(option);
+                });
+
+                console.log("Updated Daerah Options:", daerahSelect.innerHTML); // Debug
+            });
+
+
+        };
+
+        function handleHantar() {
+            const negeriSelect = document.getElementById('jalan');
+            const daerahSelect = document.getElementById('district');
+            const jarakInput = document.getElementById('distance');
+            const totalAmountElement = document.getElementById('total-amount');
+
+            const negeri = negeriSelect.options[negeriSelect.selectedIndex].text;
+            const daerah = daerahSelect.options[daerahSelect.selectedIndex]?.text || "N/A";
+            const jarak = parseFloat(jarakInput.value);
+            const totalAmount = parseFloat(totalAmountElement.textContent.replace('RM ', '')) || 0;
+
+            if (!jarak || !daerah || daerah === "N/A") {
+                alert("Sila masukkan jarak dan pilih daerah yang sah.");
+                return;
+            }
+
+            // Calculate Tax
+            const daerahKey = daerah.toLowerCase().replace(/\s+/g, '_');
+            const taxRate = taxRates[daerahKey] || {};
+            let taxPercentage = 0;
+
+            if (jarak < 16) taxPercentage = taxRate.lessThan16 || 0;
+            else if (jarak <= 32) taxPercentage = taxRate.between16And32 || 0;
+            else if (jarak <= 48) taxPercentage = taxRate.between32And48 || 0;
+            else if (jarak > 48) taxPercentage = taxRate.moreThan48 || 0;
+
+            const taxAmount = totalAmount * taxPercentage;
+            const totalAfterTax = totalAmount + taxAmount;
+
+            document.getElementById('tax-percentage').textContent = (taxPercentage * 100).toFixed(2) + '%';
+            document.getElementById('tax-amount').textContent = taxAmount.toFixed(2);
+            document.getElementById('total-after-tax').textContent = totalAfterTax.toFixed(2);
+
+            document.getElementById('tax-details').style.display = 'block';
+
+            const totalNK = calculateTotalNK();
+
+            // TAX PERCENTAGE FOR KENDERAAN 
+            let taxPercentageKenderaan = 0;
+            const daratRadio = document.getElementById('darat');
+            const airRadio = document.getElementById('air');
+
+            if (!daratRadio.checked && !airRadio.checked) {
+                alert("Sila pilih jenis kenderaan (Darat atau Air).");
+                return;
+            }
+
+            if (daratRadio.checked) {
+                taxPercentageKenderaan = 0.02; // 2%
+            } else if (airRadio.checked) {
+                taxPercentageKenderaan = 0.05; // 5%
+            }
+
+            // Calculate Tax Amount
+            const taxAmountKenderaan = totalNK * taxPercentageKenderaan;
+            const totalTaxKenderaan = totalNK + taxAmountKenderaan;
+
+            // Display Tax Details
+            document.getElementById('tax-percentage-kenderaan').textContent = (taxPercentageKenderaan * 100).toFixed(2) + '%';
+            document.getElementById('tax-amount-kenderaan').textContent = taxAmountKenderaan.toFixed(2);
+            document.getElementById('total-after-tax-kenderaan').textContent = totalTaxKenderaan.toFixed(2);
+
+            document.getElementById('tax-details-kenderaan').style.display = 'block';
+
+            // Display Jumlah Nilai Kerja (NK)
+            document.getElementById('jumlah-nilai-kerja').textContent = `RM ${totalNK.toFixed(2)}`;;
+
+            // Calculate and display Jumlah Besar (JB) 1
+            calculateJumlahBesar();
+        }
+
+        function displaySelectedItems(items) {
+            const tableBody = document.querySelector('#selected-items-table-body');
+            tableBody.innerHTML = '';
+
+            items.forEach((item, index) => {
+                const rowElement = document.createElement('tr');
+                rowElement.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.itemName}</td>
+                    <td>${item.section}</td>
+                    <td>${item.itemNo}</td>
+                    <td>${item.itemPrice.toFixed(2)}</td>
+                    <td>${item.itemQuantity}</td>
+                    <td>${item.totalPrice}</td>
+                `;
+                tableBody.appendChild(rowElement);
+            });
+
+            // Update total amount for A - ITEM JKKE
+            updateTotalAmount(items);
+            calculateTotalNK(); // Update Jumlah Nilai Kerja (NK)
+        }
+
+
+        function updateTotalAmount(items) {
+            const totalAmount = items.reduce((sum, item) => sum + parseFloat(item.totalPrice), 0).toFixed(2);
+            document.getElementById('total-amount').textContent = `RM ${totalAmount}`;
+        }
+
+        // Display the approval details
+        function displayApprovalDetails() {
+            const approvalOutput = document.getElementById("approval-output");
+            const approvalType = document.querySelector('input[name="approval"]:checked');
+
+            if (!approvalType) {
+                alert("Sila pilih Ada atau Tidak Ada");
+                return;
+            }
+
+            approvalOutput.innerHTML = ""; // Clear any previous content
+
+            if (approvalType.value === "ada") {
+                const itemRows = document.querySelectorAll(".item-row");
+                let outputHTML = `
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>Keterangan</th>
+                    <th>Bhg.</th>
+                    <th>Bil.</th>
+                    <th>RM</th>
+                    <th>Kuantiti</th>
+                    <th>Harga</th>
+                </tr>
+        `;
+
+                let indexPenambahan = 1; // Start numbering at 1
+
+                itemRows.forEach((row) => {
+                    const item = row.querySelector(".item-input").value.trim();
+                    const price = parseFloat(row.querySelector(".price-input").value.trim()) || 0;
+                    const quantity = parseFloat(row.querySelector(".quantity-input").value.trim()) || 0;
+                    const totalPrice = (quantity * price).toFixed(2);
+
+                    if (item && price && quantity) {
+                        outputHTML += `
+                    <tr>
+                        <td>${indexPenambahan}</td>
+                        <td>${item}</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>${price.toFixed(2)}</td>
+                        <td>${quantity}</td>
+                        <td>${totalPrice}</td>
+                    </tr>
+                `;
+                        indexPenambahan++; // Increment counter only for valid rows
+                    }
+                });
+
+                outputHTML += `</table>`;
+                approvalOutput.innerHTML = outputHTML;
+
+                // Update total amount for B - ITEM HARGA PERSETUJUAN
+                calculateTotalNK();
+            } else {
+                approvalOutput.textContent = "Tidak Ada";
+                calculateTotalNK();
+            }
+        }
+
+
+
+        // Function to update the table with stored items
+        function updateTable(items) {
+            const tbody = document.getElementById("selected-items-table-body");
+            tbody.innerHTML = ""; // Clear current table content
+
+            let totalAmount = 0;
+
+            items.forEach((item, index) => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${item.keterangan}</td>
+                <td>${item.bhg}</td>
+                <td>${item.bil}</td>
+                <td>RM ${item.rm}</td>
+                <td>${item.kuantiti}</td>
+                <td>${item.harga}</td>
+            `;
+
+                tbody.appendChild(row);
+
+                totalAmount += parseFloat(item.harga);
+            });
+
+            // Update the total amount
+            document.getElementById("total-amount").innerText = `RM ${totalAmount.toFixed(2)}`;
+        }
+
+        // Function to calculate and display Jumlah Nilai Kerja (NK)
+        function calculateTotalNK() {
+            const totalAmountJKKE = parseFloat(document.getElementById('total-amount').textContent.replace('RM ', '')) || 0;
+            const approvalOutput = document.getElementById("approval-output");
+            let totalAmountApproval = 0;
+
+            // Calculate total from B - ITEM HARGA PERSETUJUAN
+            const itemRows = document.querySelectorAll(".item-row");
+            itemRows.forEach((row) => {
+                const price = parseFloat(row.querySelector(".price-input").value) || 0;
+                const quantity = parseFloat(row.querySelector(".quantity-input").value) || 0;
+                totalAmountApproval += price * quantity;
+            });
+
+            const totalNK = totalAmountJKKE + totalAmountApproval;
+
+            // Display Jumlah Nilai Kerja (NK)
+            document.getElementById('jumlah-nilai-kerja').textContent = `RM ${totalNK.toFixed(2)}`;
+            return totalNK;
+        }
+
+        function calculateJumlahBesar() {
+            // Retrieve values from the DOM
+            const totalNK = parseFloat(document.getElementById('jumlah-nilai-kerja').textContent.replace('RM ', '')) || 0;
+            const taxAmount = parseFloat(document.getElementById('tax-amount').textContent) || 0;
+            const taxAmountKenderaan = parseFloat(document.getElementById('tax-amount-kenderaan').textContent) || 0;
+
+            // Calculate Jumlah Besar (JB) 1
+            const jumlahBesar1 = totalNK + taxAmount + taxAmountKenderaan;
+
+            // Display Jumlah Besar (JB) 1
+            document.getElementById('jumlah-besar-output').textContent = `RM ${jumlahBesar1.toFixed(2)}`;
+
+            // Calculate the charge
+            let charge = 0;
+            if (jumlahBesar1 < 1000) {
+                charge = jumlahBesar1 * 0.20; // 20% charge
+            }
+
+            console.log("Jumlah Besar 1:", jumlahBesar1); // Debugging line
+            console.log("Charge:", charge); // Debugging line
+
+            // Display the charge
+            document.getElementById('charge-output').textContent = `RM ${charge.toFixed(2)}`;
+
+            // Calculate Jumlah Besar (JB) 2
+            const jumlahBesar2 = jumlahBesar1 + charge;
+
+            // Display Jumlah Besar (JB) 2
+            document.getElementById('jumlah-besar-2-output').textContent = `RM ${jumlahBesar2.toFixed(2)}`;
+
+            // Determine Bayaran Muktamad
+            let bayaranMuktamad;
+            let message = '';
+
+            if (jumlahBesar1 < 1000) {
+                bayaranMuktamad = 1000; // Set to RM 1,000
+                message = `Had maksimum bayaran kepada Kontraktor: RM 1,000.00`;
+            } else {
+                bayaranMuktamad = jumlahBesar1; // Set to Jumlah Besar (JB) 1
+            }
+
+            // Display Bayaran Muktamad
+            document.getElementById('bayaran-muktamad-output').textContent = `RM ${bayaranMuktamad.toFixed(2)}`;
+            document.getElementById('had-maksimum-output').textContent = message;
+        }
+
+        function generateFinalSlip() {
+            console.log("Generating final slip..."); // Debugging line
+
+            // Gather data
+            const project = document.getElementById('project-output').innerText;
+            const distance = document.getElementById('distance-output').innerText;
+            const jalan = document.getElementById('jalan-output').innerText;
+            const totalNK = document.getElementById('jumlah-nilai-kerja').innerText;
+            const taxPercentage = document.getElementById('tax-percentage').innerText;
+            const taxPercentageKenderaan = document.getElementById('tax-percentage-kenderaan').innerText;
+            const jumlahBesar1 = document.getElementById('jumlah-besar-output').innerText;
+            const charge = document.getElementById('charge-output').innerText;
+            const jumlahBesar2 = document.getElementById('jumlah-besar-2-output').innerText;
+            const bayaranMuktamad = document.getElementById('bayaran-muktamad-output').innerText;
+
+            // Gather items for A - ITEM JKKE
+            const selectedItems = document.querySelectorAll('#selected-items-table-body tr');
+            let itemJKKEHTML = '';
+            selectedItems.forEach((row, index) => {
+                const cells = row.querySelectorAll('td');
+                itemJKKEHTML += `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${cells[1].innerText}</td>
+                <td>${cells[2].innerText}</td>
+                <td>${cells[3].innerText}</td>
+                <td>${cells[4].innerText}</td>
+                <td>${cells[5].innerText}</td>
+                <td>${cells[6].innerText}</td>
+            </tr>
+        `;
+            });
+
+            // Gather items for B - ITEM HARGA PERSETUJUAN
+            const approvalType = document.querySelector('input[name="approval"]:checked');
+            let itemHargaPersetujuanHTML = '';
+
+            if (approvalType && approvalType.value === "ada") {
+                // Gather items for B - ITEM HARGA PERSETUJUAN
+                const approvalItems = document.querySelectorAll('#approval-output table tr');
+                approvalItems.forEach((row, index) => {
+                    const cells = row.querySelectorAll('td');
+                    if (cells.length > 0) {
+                        itemHargaPersetujuanHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${cells[1] ? cells[1].innerText : 'N/A'}</td>
+                    <td>${cells[2] ? cells[2].innerText : 'N/A'}</td>
+                    <td>${cells[3] ? cells[3].innerText : 'N/A'}</td>
+                    <td>${cells[4] ? cells[4].innerText : 'N/A'}</td>
+                    <td>${cells[5] ? cells[5].innerText : 'N/A'}</td>
+                    <td>${cells[6] ? cells[6].innerText : 'N/A'}</td>
+                </tr>
+                `;
+                    }
+                });
+            } else {
+                // If "Tidak Ada" is selected, display "Tiada"
+                itemHargaPersetujuanHTML = `
+        <tr>
+            <td></td>
+            <td colspan="1">Tiada</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          
+        </tr>
+        `;
+            }
+
+            // Populate the final slip section
+            document.getElementById('final-project-output').innerText = project;
+            document.getElementById('final-distance-output').innerText = distance;
+            document.getElementById('final-jalan-output').innerText = jalan;
+            document.getElementById('final-jumlah-nilai-kerja').innerText = totalNK;
+            document.getElementById('final-tax-percentage').innerText = taxPercentage;
+            document.getElementById('final-jumlah-besar-output').innerText = jumlahBesar1;
+            document.getElementById('final-charge-output').innerText = charge;
+            document.getElementById('final-jumlah-besar-2-output').innerText = jumlahBesar2;
+            document.getElementById('final-bayaran-muktamad-output').innerText = bayaranMuktamad;
+
+            // Populate the selected items table
+            const finalTableBody = document.getElementById('final-selected-items-table-body');
+            finalTableBody.innerHTML = itemJKKEHTML;
+
+            // Populate the approval output
+            const finalApprovalOutput = document.getElementById('final-approval-output');
+            finalApprovalOutput.innerHTML = itemHargaPersetujuanHTML;
+
+            // Show the final slip section
+            document.getElementById('final-slip').style.display = 'block';
+        }
+
+        document.getElementById('hantar-slip-button').addEventListener('click', function () {
+            generateFinalSlip(); // Call the function to generate the final slip
+        });
+
+        //PDF FUNCTION 
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            let y = 10;
+
+            // Title and Project Information
+            pdf.setFontSize(14);
+            const finalProjectOutput = document.getElementById('final-project-output');
+            const projectText = finalProjectOutput ? finalProjectOutput.innerText : 'N/A';
+            pdf.text('Projek: ' + projectText, 10, y);
+
+            y += 10;
+            pdf.text(
+                'Jarak: ' +
+                (document.getElementById('final-distance-output')?.innerText || 'N/A') +
+                ' km daripada ' +
+                (document.getElementById('final-jalan-output')?.innerText || 'N/A'),
+                10,
+                y
+            );
+
+            y += 10;
+
+            // Prepare Data for Combined Table
+            const tableData = [];
+
+            // Add Bahagian A Header
+            tableData.push([
+                { content: 'A', styles: { fontStyle: 'bold', textDecoration: 'underline' } },
+                { content: 'ITEM JKKE', styles: { fontStyle: 'bold', textDecoration: 'underline' } },
+                '', '', '', '', ''
+            ]);
+
+
+            // Fetch Bahagian A Data
+            const selectedItems = document.querySelectorAll('#final-selected-items-table-body tr');
+            selectedItems.forEach((row, index) => {
+                const cells = row.querySelectorAll('td');
+                tableData.push([
+                    index + 1,
+                    cells[1]?.innerText || 'N/A',
+                    cells[2]?.innerText || 'N/A',
+                    cells[3]?.innerText || 'N/A',
+                    cells[4]?.innerText || 'N/A',
+                    cells[5]?.innerText || 'N/A',
+                    cells[6]?.innerText || 'N/A'
+                ]);
+            });
+
+            // Add Bahagian B Header
+            tableData.push([
+                { content: 'B', styles: { fontStyle: 'bold' } },
+                { content: 'ITEM HARGA PERSETUJUAN', styles: { fontStyle: 'bold' } },
+                '', '', '', '', ''
+            ]);
+
+            // Fetch Bahagian B Data
+            const approvalItems = document.querySelectorAll('#final-approval-output tr');
+            if (approvalItems.length > 0) {
+                approvalItems.forEach((row, index) => {
+                    const cells = row.querySelectorAll('td');
+                    tableData.push([
+                        index + 1,
+                        cells[1]?.innerText || 'N/A',
+                        cells[2]?.innerText || 'N/A',
+                        cells[3]?.innerText || 'N/A',
+                        cells[4]?.innerText || 'N/A',
+                        cells[5]?.innerText || 'N/A',
+                        cells[6]?.innerText || 'N/A'
+                    ]);
+                });
+            } else {
+                tableData.push(['', 'Tiada', '', '', '', '', '']);
+            }
+
+            // Generate Combined Table with full grid lines
+            pdf.autoTable({
+                head: [
+                    [
+                        { content: 'No', rowSpan: 2 },
+                        { content: 'Keterangan', rowSpan: 2 },
+                        { content: 'JKKE', colSpan: 3 },
+                        { content: 'Kuantiti', rowSpan: 2 },
+                        { content: 'Harga', rowSpan: 2 },
+                    ],
+                    [
+                        { content: 'Bhg.' },
+                        { content: 'Bil.' },
+                        { content: 'RM' },
+                    ],
+                ],
+                body: tableData,
+                startY: y,
+                theme: 'grid', // Full grid lines for rows and columns
+                styles: {
+                    halign: 'left', // Align text to the left
+                    textColor: [0, 0, 0], // Black text
+                    lineColor: [0, 0, 0], // Black grid lines
+                    lineWidth: 0.1, // Thin grid lines
+                    fillColor: [255, 255, 255], // White background for all cells
+                },
+                headStyles: {
+                    fillColor: [255, 255, 255], // White background for the header
+                    textColor: [0, 0, 0], // Black text for the header
+                    lineColor: [0, 0, 0], // Black grid lines for the header
+                    lineWidth: 0.1, // Thin grid lines
+                    halign: 'center',
+                },
+                columnStyles: {
+                    0: { cellWidth: 10 }, // No column
+                    1: { cellWidth: 90 }, // Keterangan column
+                    2: { cellWidth: 13 }, // Bhg. column
+                    3: { cellWidth: 12 }, // Bil. column
+                    4: { cellWidth: 19 }, // RM column
+                    5: { cellWidth: 17 }, // Kuantiti column
+                    6: { cellWidth: 18 }, // Harga column
+                },
+            });
+
+
+            y = pdf.lastAutoTable.finalY + 10;
+
+            // Financial Details
+            pdf.setFontSize(11);
+            pdf.text(
+                '   Jumlah Nilai Kerja (NK): ' +
+                (document.getElementById('final-jumlah-nilai-kerja')?.innerText || 'N/A'),
+                10,
+                y
+            );
+            y += 10;
+
+            pdf.setFontSize(12);
+            pdf.setFont(undefined, 'bold');
+            pdf.text(
+                'PENGIRAAN TAMBAHAN PERATUSAN',
+                10,
+                y
+            );
+            const textWidth = pdf.getTextWidth('Pengiraan Tambahan Peratusan');
+            pdf.line(10, y + 1, 10 + textWidth, y + 1); // Underline
+            y += 10;
+
+            pdf.setFont(undefined, 'normal');
+
+            ///
+            // FORMAT 
+            ///
+
+            // Define page width and indentation for alignment
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const margin = 10; // Left margin
+            const rightAlign = pageWidth - margin; // Right-aligned position
+            const indent = margin + 10; // Indentation for explanations
+
+            // Function to print text and amount without dots
+            function addDots(text, amount, leftX, rightX, yPosition) {
+                pdf.text(text, leftX, yPosition);
+                pdf.text(amount, rightX, yPosition, { align: 'right' });
+            }
+
+
+            // i. Tambahan peratusan kawasan
+            const taxPercentage = document.getElementById('tax-percentage')?.innerText || 'N/A';
+            const taxAmount = document.getElementById('tax-amount')?.innerText || 'N/A';
+            const text1 = `i. Tambahan peratusan kawasan (Rujuk Jadual 1) \n ${taxPercentage}% daripada nilai kerja (NK)`;
+            addDots(text1, `........ RM ${taxAmount}`, margin, rightAlign, y);
+            y += 10; // Increment Y-position for the next line
+
+            // ii. Tambahan peratusan kesukaran logistik
+            const logisticsPercentage = document.getElementById('final-tax-percentage-kenderaan')?.innerText || 'N/A';
+            const logisticsAmount = document.getElementById('tax-amount-kenderaan')?.innerText || 'N/A';
+            const text2 = `ii. Tambahan peratusan kesukaran logistik \n ${logisticsPercentage}% daripada nilai kerja (NK)`;
+            addDots(text2, `........ RM ${logisticsAmount}`, margin, rightAlign, y);
+            y += 12; // Increment Y-position for the next line
+
+            // Jumlah Besar (JB) 1
+            const jb1Amount = document.getElementById('jumlah-besar-output')?.innerText || 'N/A';
+            addDots('Jumlah Besar (JB) 1', `........  ${jb1Amount}`, margin, rightAlign, y);
+            y += 12;
+
+            //Tambah 20% jika amaun kurang dari RM1,000
+            const charge = document.getElementById('charge-output')?.innerText || 'N/A';
+            addDots('Tambahan 20% daripada JB1 oleh sebab jumlah kurang dari RM1,000.00, ' +
+                '\n Rujuk item 1.2.4.', `........  ${charge}`, margin, rightAlign, y);
+            y += 12;
+
+            //Jumlah Besar (JB) 2
+            const jb2Amount = document.getElementById('jumlah-besar-2-output')?.innerText || 'N/A';
+            addDots('Jumlah Besar (JB) 2', `........ ${jb2Amount}`, margin, rightAlign, y);
+            y += 12;
+
+
+            //Bayaran Maksimum kepada Kontraktor 
+            const hadMak = document.getElementById('had-maksimum-output')?.innerText || 'N/A';
+            addDots('Had maksimum bayaran kepada Kontraktor', `........  ${hadMak}`, margin, rightAlign, y);
+            y += 12;
+
+            //Bayaran Muktamad
+            const bayaranMuk = document.getElementById('bayaran-muktamad-output')?.innerText || 'N/A';
+            addDots(' ', `........ ${bayaranMuk}`, margin, rightAlign, y);
+            y += 12;
+
+            // Save the PDF
+            pdf.save('slip.pdf');
+        }
+
+        function downloadExcel() {
+            // Create a new workbook
+            const wb = XLSX.utils.book_new();
+
+            // Create an array to hold the formatted data
+            const data = [];
+
+            // Add project details
+            const projectTitle = document.getElementById('final-project-output')?.innerText || 'N/A';
+            const projectDistance = document.getElementById('final-distance-output')?.innerText || 'N/A';
+            const projectRoad = document.getElementById('final-jalan-output')?.innerText || 'N/A';
+
+            data.push(['Projek : ', projectTitle]);
+            data.push(['Jarak : ', projectDistance, 'km daripada ', projectRoad]);
+            data.push(['']); // Spacer
+
+            // Table Header
+            data.push(['No', 'Keterangan', 'JKKE', '', '', 'Kuantiti', 'Harga']);
+            data.push(['', '', 'Bhg.', 'Bil.', 'RM', '', '']); // Sub-header for JKKE
+
+            // Gather selected items
+            const selectedItems = document.querySelectorAll('#final-selected-items-table-body tr');
+            selectedItems.forEach((row, index) => {
+                const cells = row.querySelectorAll('td');
+                data.push([
+                    index + 1,
+                    cells[1]?.innerText || 'N/A',
+                    cells[2]?.innerText || 'N/A',
+                    cells[3]?.innerText || 'N/A',
+                    cells[4]?.innerText || 'N/A',
+                    cells[5]?.innerText || 'N/A',
+                    cells[6]?.innerText || 'N/A',
+                ]);
+            });
+
+            data.push(['']); // Spacer
+
+            // Add calculation details below the table
+            const nilaiKerja = document.getElementById('final-jumlah-nilai-kerja')?.innerText || 'N/A';
+            const taxPercentage = document.getElementById('final-tax-percentage')?.innerText || 'N/A';
+            const taxAmount = document.getElementById('tax-amount')?.innerText || 'N/A';
+            const kenderaanPercentage = document.getElementById('tax-percentage-kenderaan')?.innerText || 'N/A';
+            const kenderaanAmount = document.getElementById('tax-amount-kenderaan')?.innerText || 'N/A';
+            const jumlahBesar1 = document.getElementById('final-jumlah-besar-output')?.innerText || 'N/A';
+            const charge = document.getElementById('final-charge-output')?.innerText || 'N/A';
+            const jumlahBesar2 = document.getElementById('final-jumlah-besar-2-output')?.innerText || 'N/A';
+            const hadMaksimum = document.getElementById('had-maksimum-output')?.innerText || 'N/A';
+            const bayaranMuktamad = document.getElementById('final-bayaran-muktamad-output')?.innerText || 'N/A';
+
+            data.push(['Jumlah Nilai Kerja (NK) :', nilaiKerja]);
+
+            data.push(['PENGIRAAN TAMBAHAN PERATUSAN']); 
+            data.push(['i. Tambahan peratusan kawasan (Rujuk Jadual 1) : ']); 
+            data.push(['         ', taxPercentage, ' daripada nilai Kerja (NK)',taxAmount])
+            data.push(['ii. Tambahan peratusan kesukaran logistik (Rujuk item 1.2.2/1.23) :'])
+            data.push(['         ', kenderaanPercentage, ' daripada nilai Kerja (NK)',kenderaanAmount])
+         
+            data.push(['Jumlah Besar (JB) 1 :', jumlahBesar1]);
+            data.push(['Tambahan 20% daripada JB1 oleh sebab jumlah kurang dari RM1,000.00, Rujuk item 1.2.4. ', charge]);
+            data.push(['Jumlah Besar (JB) 2 :', jumlahBesar2]);
+            data.push(['Had maksimum bayaran kepada Kontraktor :', hadMaksimum]);
+            data.push(['Bayaran Muktamad :', bayaranMuktamad]);
+            data.push(['']); // Spacer
+
+            // Create a worksheet from the data array
+            const ws = XLSX.utils.aoa_to_sheet(data);
+
+            // Merge cells for formatting (matching the picture layout)
+            ws['!merges'] = [
+                { s: { r: 0, c: 0 }, e: { r: 0, c: 6 } }, // Merge project title
+                { s: { r: 1, c: 0 }, e: { r: 1, c: 6 } }, // Merge distance row
+                { s: { r: 2, c: 0 }, e: { r: 2, c: 6 } }, // Merge road row
+                { s: { r: 4, c: 2 }, e: { r: 4, c: 4 } }, // Merge JKKE sub-header
+            ];
+
+            // Set page layout for A4
+            ws['!pageSetup'] = {
+                paperSize: 9, // A4 size
+                orientation: 'landscape', // Landscape mode
+                fitToWidth: 1, // Fit to one page wide
+                fitToHeight: 0, // No limit on page height
+            };
+
+            // Append the worksheet to the workbook
+            XLSX.utils.book_append_sheet(wb, ws, 'Formatted Slip');
+
+            // Download the workbook
+            XLSX.writeFile(wb, 'slip.xlsx');
+        }
+
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+</body>
+
+</html>
