@@ -798,6 +798,68 @@
 
     </div>
 
+    <!-- Section I -->
+    <br><button class="item-button section-button" onclick="toggleItems('items-i')">
+        <h2>BAHAGIAN I</h2>
+    </button>
+
+    <div id="items-i" class="items-list hidden">
+
+        <!-- Add Item Form for Bahagian I -->
+        <h3>Tambah Item Bahagian I</h3>
+        <div class="add-item-form">
+            <label for="new-no-I-II">No:</label>
+            <input type="text" id="new-no-I-II" placeholder="Masukkan No. Item"><br>
+
+            <label for="new-name-I-II">Keterangan:</label>
+            <input type="text" id="new-name-I-II" placeholder="Masukkan Keterangan"><br>
+
+            <label for="new-unit-I-II">Unit:</label>
+            <input type="text" id="new-unit-I-II" placeholder="Masukkan Unit"><br>
+
+            <label for="new-price-I-II">Harga Per Unit (RM):</label>
+            <input type="number" id="new-price-I-II" placeholder="Masukkan Harga"><br>
+
+            <button onclick="addItem('I-II')">Tambah Item</button>
+        </div>
+
+        <!-- LIST ITEM DISPLAY HERE -->
+        <table id="data-table-I-II" class="data-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Keterangan</th>
+                    <th>Unit</th>
+                    <th>Harga Per Unit (RM)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!--EDIT ITEM -->
+        <div id="edit-modal-I-II" class="edit-modal">
+            <div class="edit-modal-content">
+                <h2>KEMAS KINI ITEM</h2>
+                <label for="edit-name-I-II">Keterangan:</label>
+                <input type="text" id="edit-name-I-II"><br><br>
+                <label for="edit-unit-I-II">Unit :</label>
+                <input type="text" id="edit-unit-I-II"><br><br>
+                <label for="edit-price-I-II">Harga Per Unit (RM):</label>
+                <input type="number" id="edit-price-I-II"><br><br>
+                <button onclick="saveEdit('I-II')">Simpan</button>
+                <button onclick="closeEditModal('I-II')">Batal</button>
+            </div>
+        </div>
+
+        <input type="file" id="excel-file-I-II" accept=".xlsx, .xls" class="file-input">
+        <button id="download-button-I-II" class="download-button" onclick="downloadExcel('I-II')">Muat Turun Senarai
+            Item
+            Terkini</button>
+
+    </div>
+
+
 
 
     <div class="button-container">
@@ -813,7 +875,7 @@
 
         // Load data from localStorage on page load
         window.onload = function () {
-            ['A-II', 'B-II', 'C-II', 'D-II', 'E-II', 'F-II', 'G-II', 'H-II'].forEach(section => {
+            ['A-II', 'B-II', 'C-II', 'D-II', 'E-II', 'F-II', 'G-II', 'H-II','I-II'].forEach(section => {
                 const storedData = localStorage.getItem(`excelData${section}`);
                 if (storedData) {
                     const parsedData = JSON.parse(storedData);
@@ -1018,6 +1080,10 @@
 
         document.getElementById('excel-file-H-II').addEventListener('change', function (event) {
             handleFileUpload(event, 'H-II');
+        });
+
+        document.getElementById('excel-file-H-II').addEventListener('change', function (event) {
+            handleFileUpload(event, 'I-II');
         });
 
     </script>
