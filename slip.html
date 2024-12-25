@@ -79,6 +79,50 @@
         .radio-group {
             margin: 10px 0;
         }
+        
+        
+    .blue-button {
+        background-color: blue; /* Button background color */
+        color: white; /* Text color */
+        border: none; /* Remove border */
+        padding: 10px 20px; /* Padding for the button */
+        cursor: pointer; /* Change cursor to pointer on hover */
+        border-radius: 5px; /* Optional: rounded corners */
+        font-size: 16px; /* Optional: font size */
+    }
+
+    .blue-button:hover {
+        background-color: darkblue; /* Darker blue on hover */
+    }
+    
+    .red-button {
+        background-color: red; /* Button background color */
+        color: white; /* Text color */
+        border: none; /* Remove border */
+        padding: 10px 20px; /* Padding for the button */
+        cursor: pointer; /* Change cursor to pointer on hover */
+        border-radius: 5px; /* Optional: rounded corners */
+        font-size: 16px; /* Optional: font size */
+    }
+
+    .red-button:hover {
+        background-color: darkred; /* Darker red on hover */
+    }
+
+    .green-button {
+        background-color: green; /* Button background color */
+        color: white; /* Text color */
+        border: none; /* Remove border */
+        padding: 10px 20px; /* Padding for the button */
+        cursor: pointer; /* Change cursor to pointer on hover */
+        border-radius: 5px; /* Optional: rounded corners */
+        font-size: 16px; /* Optional: font size */
+    }
+
+    .green-button:hover {
+        background-color: darkgreen; /* Darker green on hover */
+    }
+
 
         #approval-output table {
             border-collapse: collapse;
@@ -254,7 +298,7 @@
         </div>
     </div>
 
-    <button id="done-button" onclick="handleHantar(); displayApprovalDetails();">HANTAR</button>
+    <button id="done-button" class="blue-button" onclick="handleHantar(); displayApprovalDetails();">HANTAR</button>
 
     <!--SLIP SECTION -->
     <div class="form-container">
@@ -278,17 +322,15 @@
         <div id="tax-details">
             <h2>PENGIRAAN TAMBAHAN PERATUSAN</h2>
             <p>CUKAI DAERAH</p>
-            <p>Tax Percentage: <span id="tax-percentage">0%</span></p>
-            <p>Total Amount After Tax: RM <span id="total-after-tax">0.00</span></p>
+            <p>Jumlah Peratusan : <span id="tax-percentage">0%</span></p>
         </div>
 
         <!--TAX JENIS KENDERAAN -->
         <div id="tax-details-kenderaan">
             <h2>PENGIRAAN TAMBAHAN PERATUSAN</h2>
             <p>CUKAI JENIS KENDERAAN</p>
-            <p>Tax Percentage : <span id="tax-percentage-kenderaan">0%</span></p>
-            <p>Jumlah Peratusan: RM <span id="tax-amount-kenderaan">0.00</span></p>
-            <p>Total Amount After Tax: RM <span id="total-after-tax-kenderaan">0.00</span></p>
+            <p>Jumlah Peratusan : <span id="tax-percentage-kenderaan">0%</span></p>
+  
         </div>
 
         <!-- JUMLAH BESAR SATU DISPLAY -->
@@ -313,7 +355,7 @@
         <!-- BAYARAN MUKTAMAD -->
         <div">
             <h2>Bayaran Muktamad</h2>
-            <p id="bayaran-muktamad-output">Bayaran Muktamad: RM 0.00</p>
+            <p id="bayaran-muktamad-output">RM 0.00</p>
             <p id="had-maksimum-output"></p>
     </div>
 
@@ -392,13 +434,15 @@
         <p>Had maksimum bayaran kepada Kontraktor: <span id="had-maksimum-output"></span></p>
         <p>Bayaran Muktamad : <span id="final-bayaran-muktamad-output"></span></p>
 
-        <button onclick="downloadPDF()">Download PDF</button>
-        <button onclick="downloadExcel()">Download Excel</button>
+        <button onclick="downloadPDF()" class="red-button">Download PDF</button>
+        <button onclick="downloadExcel()" class="green-button">Download Excel</button>
 
     </div>
 
-    <button id="hantar-slip-button">HANTAR SLIP</button>
-    <li><a href="index.html">MENU</a></li>
+   
+<button id="hantar-slip-button" class="blue-button">HANTAR SLIP</button>
+    
+    <br><br><br><a href="index.html">MENU</a></li>
 
     <script>
 
@@ -434,6 +478,17 @@
             document.getElementById('distance-output').innerText = distance;
             document.getElementById('jalan-output').innerText = jalan;
         });
+        
+        function validateForm() {
+            // Perform validation here if needed
+            // For example, check if the distance is a positive number
+            const distance = document.getElementById('distance').value;
+            if (distance <= 0) {
+                alert("Jarak mesti lebih besar daripada 0.");
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
 
         function populateDistrictDropdown(selectedNegeri) {
             const districtDropdown = document.getElementById('district');
